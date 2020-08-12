@@ -1,6 +1,7 @@
 import sys
 import json
 import requests
+from os import path
 
 api_key = 'REYx8AWMuPvryDDYi8KgQoNkC'
 api_secret_key = 'O6lvWoF6GLN2MG5hrbSosFPWHYfLOK8FgvIsjouGgWO93AEvw8'
@@ -17,23 +18,36 @@ def create_url(tweet_query):
     full_url = tweets_url + '?q=' + tweet_query + '&result_type=popular'
     return full_url
 
+def file_exists(filename):
+    return path.exists(filename)
+
 def main():
     n = len(sys.argv)
 
     assert(n > 1)
 
     tweet_query = sys.argv[1]
+    filename = '{}.json'.format(tweet_query)
+
+    # dont send the request if we already have the data file saved
+    if file_exists(filename):
+        print(1)
+        exit
 
     url = create_url(tweet_query)
     headers = create_headers(bearer_token)
 
     res = requests.request("GET", url, headers=headers)
     if res.status_code != 200:
-        raise Exception(res.status_code, res.text)
+        print(0)
+        exit
+        # raise Exception(res.status_code, res.text)
 
-    with open('data.json', 'w') as f:
+
+    with open(filename, 'w') as f:
         json.dump(res.json(), f)
-    return res.json()
+
+    print(1)
 
 if __name__ == "__main__":
     main()

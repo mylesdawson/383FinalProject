@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
+
+	"github.com/gorilla/mux"
 )
 
 func hello(w http.ResponseWriter, req *http.Request) {
@@ -14,6 +16,7 @@ func hello(w http.ResponseWriter, req *http.Request) {
 }
 
 func gather_tweets(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	keys, ok := req.URL.Query()["type"]
 
@@ -71,11 +74,12 @@ func gather_tweets(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	// Go creates a goroutine when a new connection is accepted!
-	// Routes.
-	http.HandleFunc("/hello", hello)
-	http.HandleFunc("/tweets", gather_tweets)
+
+	r := mux.NewRouter()
+
+	r.HandleFunc("/hello", hello)
+	r.HandleFunc("/tweets", gather_tweets)
 
 	log.Println("Server listening at http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", r))
 }

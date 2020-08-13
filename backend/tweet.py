@@ -15,7 +15,7 @@ def create_url(tweet_query):
     tweets_url = 'https://api.twitter.com/1.1/search/tweets.json'
 
     # TODO could make result type togglable in the UI
-    full_url = tweets_url + '?q=' + tweet_query + '&result_type=popular'
+    full_url = tweets_url + '?q=' + tweet_query + '&result_type=popular&tweet_mode=extended'
     return full_url
 
 def file_exists(filename):

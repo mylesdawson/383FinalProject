@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
 
+import Tweet from './Tweet'
+
 import { getTweetsByType } from './api/api'
 
 function AppContainer() {
   const [ isSending, setIsSending ] = useState(false)
   const [ tweet, setTweet ] = useState('')
-  const [ data, setData ] = useState(null)
   const [ apiErr, setApiErr ] = useState('')
   const [ tweets, setTweets ] = useState([])
 
@@ -18,12 +19,12 @@ function AppContainer() {
 
     setIsSending(true)
     setApiErr('')
-    setTweet([])
+    setTweets([])
 
     try {
       const res = await getTweetsByType(tweet)
       console.log(res)
-      setData(res.statuses)
+      setTweets(res.statuses)
     } catch (error) {
       console.error(error)
       setApiErr(error.message)
@@ -39,11 +40,11 @@ function AppContainer() {
 
   return (
     <div className="container">
-      <form class="main-form">
+      <form className="main-form">
         <label htmlFor="mainInput">Search for a Tweet by Keyword</label>
         <div className="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupPrepend">#</span>
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="inputGroupPrepend">#</span>
           </div>
           <input
             type="text"
@@ -52,13 +53,24 @@ function AppContainer() {
             className="form-control"
             aria-describedby="inputGroupPrepend"
             onChange={inputChange}
+            value={tweet}
             required />
         </div>
-        <div class="text-danger">
+        <div className="text-danger">
           { apiErr }
         </div>
         <button className="btn btn-primary" onClick={sendReq}>Find Tweets</button>
       </form>
+
+      <div className="card-container">
+        {tweets.map(tweet =>
+          <Tweet
+            key={tweet.id}
+            tweet={tweet}
+          />
+        )}
+      </div>
+
     </div>
   );
 }

@@ -44,7 +44,7 @@ def main():
         # raise Exception(res.status_code, res.text)
 
 
-    with open(filename, 'w') as f:
+    with open("./json/{}".format(filename), 'w') as f:
         json.dump(res.json(), f)
 
     print(1)

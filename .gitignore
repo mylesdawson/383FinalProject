@@ -1,4 +1,4 @@
 node_modules/
 .vscode/
 venv/
-backend/*.json
+backend/json/*.json

@@ -45,7 +45,7 @@ func gather_tweets(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// 1) Read from json file
-	filename := key + ".json"
+	filename := "./json/" + key + ".json"
 	plan, err := ioutil.ReadFile(filename)
 	if err != nil {
 		http.Error(w, "Failed to read from file", http.StatusInternalServerError)

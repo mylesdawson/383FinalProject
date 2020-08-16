@@ -19,17 +19,23 @@ func gather_tweets(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	keys, ok := req.URL.Query()["type"]
+	fmt.Printf("%s\n", req.URL)
 
 	if !ok || len(keys[0]) < 1 {
 		http.Error(w, "Enter query parameter at the end of the url: ?type=x", http.StatusBadRequest)
 		return
 	}
+	q_type := keys[0]
 
-	key := keys[0]
-	log.Println("Url Param 'key' is: " + key)
+	keys, ok = req.URL.Query()["lang"]
 
-	// Assuming go run from inside backend/ folder
-	cmd := exec.Command("/usr/bin/python3", "./tweet.py", key)
+	lang := ""
+	if ok {
+		lang = keys[0]
+	}
+	fmt.Printf("lang is: %s\n", lang)
+
+	cmd := exec.Command("/usr/bin/python3", "./tweet.py", q_type, lang)
 	res, err := cmd.CombinedOutput()
 
 	if err != nil {
@@ -45,7 +51,7 @@ func gather_tweets(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// 1) Read from json file
-	filename := "./json/" + key + ".json"
+	filename := "./json/" + q_type + ".json"
 	plan, err := ioutil.ReadFile(filename)
 	if err != nil {
 		http.Error(w, "Failed to read from file", http.StatusInternalServerError)

@@ -1,7 +1,17 @@
+import { noFilter } from '../constants'
+
 const url = "http://localhost:8080/tweets"
 
-export function getTweetsByType(type) {
-  const fullUrl = `${url}?type=${type}`
+export function getTweetsByType(type, selectedLang) {
+  console.log(selectedLang)
+
+  const langAppend = selectedLang === noFilter ? '' : selectedLang
+
+  let fullUrl = `${url}?type=${type}`
+
+  if (langAppend) {
+    fullUrl = fullUrl + `&lang=${langAppend}`
+  }
 
   return fetch(fullUrl)
     .then(resp => {

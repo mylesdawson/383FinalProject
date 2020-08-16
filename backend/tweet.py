@@ -11,11 +11,13 @@ def create_headers(bearer_token):
     headers = {"Authorization": "Bearer {}".format(bearer_token)}
     return headers
 
-def create_url(tweet_query):
+def create_url(tweet_query, language):
     tweets_url = 'https://api.twitter.com/1.1/search/tweets.json'
 
     # TODO could make result type togglable in the UI
     full_url = tweets_url + '?q=' + tweet_query + '&result_type=popular&tweet_mode=extended'
+    if language != '':
+        full_url = full_url + '&lang={}'.format(language)
     return full_url
 
 def file_exists(filename):
@@ -27,6 +29,7 @@ def main():
     assert(n > 1)
 
     tweet_query = sys.argv[1]
+
     filename = '{}.json'.format(tweet_query)
 
     # dont send the request if we already have the data file saved
@@ -34,7 +37,12 @@ def main():
         print(1)
         exit
 
-    url = create_url(tweet_query)
+    lang = ''
+    if n > 2:
+        lang = sys.argv[2]
+
+    url = create_url(tweet_query, lang)
+
     headers = create_headers(bearer_token)
 
     res = requests.request("GET", url, headers=headers)

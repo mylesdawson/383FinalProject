@@ -3,13 +3,13 @@ import React, { useState, useCallback } from 'react';
 import Tweet from './Tweet'
 
 import { getTweetsByType } from './api/api'
+import { supportedLanguages } from './constants'
 
 function AppContainer() {
   const [ isSending, setIsSending ] = useState(false)
   const [ tweet, setTweet ] = useState('')
   const [ apiErr, setApiErr ] = useState('')
   const [ tweets, setTweets ] = useState([])
-
 
   const sendReq = useCallback(async (e) => {
     e.preventDefault()
@@ -22,7 +22,9 @@ function AppContainer() {
     setTweets([])
 
     try {
-      const res = await getTweetsByType(tweet)
+      const selectedLang = document.getElementById("languageSelect").value
+
+      const res = await getTweetsByType(tweet, selectedLang)
       console.log(res)
       setTweets(res.statuses)
     } catch (error) {
@@ -59,15 +61,18 @@ function AppContainer() {
         <div className="text-danger">
           { apiErr }
         </div>
-        <button className="btn btn-primary" onClick={sendReq}>Find Tweets</button>
 
-        <div className="input-group row">
-          <div>
-            <label htmlFor="languageSelect">(Optional) Filter by Language</label>
-          </div>
-          <div>
-            <select id="languageSelect" className="custom-select"></select>
-          </div>
+        <label htmlFor="languageSelect">(Optional) Filter by Language</label>
+        <div className="input-group">
+            <select id="languageSelect" className="custom-select">
+              {supportedLanguages.map(lang =>
+                <option key={lang} value={lang}>{lang}</option>
+              )}
+            </select>
+        </div>
+
+        <div className="input-group">
+          <button className="btn btn-primary" onClick={sendReq}>Find Tweets</button>
         </div>
       </form>
 

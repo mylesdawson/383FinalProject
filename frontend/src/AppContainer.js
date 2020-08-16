@@ -60,6 +60,15 @@ function AppContainer() {
           { apiErr }
         </div>
         <button className="btn btn-primary" onClick={sendReq}>Find Tweets</button>
+
+        <div className="input-group row">
+          <div>
+            <label htmlFor="languageSelect">(Optional) Filter by Language</label>
+          </div>
+          <div>
+            <select id="languageSelect" className="custom-select"></select>
+          </div>
+        </div>
       </form>
 
       <div className="card-container">

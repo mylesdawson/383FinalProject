@@ -43,7 +43,7 @@ Python
 
 ## Features to Look For
 1. API (backend/frontend)
-- Setup of simple backend server
+- Setup of backend server
 - Frontend sending requests and handling responses from server
 
 2. Script execution in Golang and error handling
@@ -51,5 +51,9 @@ Python
 - Recieving status codes from the executed script
 - Handling errors from script and other issues that might arise
 
-3. Tweet processing in Tweet.js
-- functional-style coding (map, filter, functions as args) used to separate tweet from links it contains
+3. React Frontend
+- Functional-style coding (map, filter, functions as args) used to separate tweet from links it contains
+- Container-Component Architecture
+- React Routing
+- Mapping array to array of components
+- Using React Hooks

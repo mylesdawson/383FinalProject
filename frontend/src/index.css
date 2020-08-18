@@ -44,3 +44,20 @@ code {
   width: 3rem;
   margin-right: .5rem;
 }
+
+.app-title {
+  margin: 2rem auto;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-btn {
+  margin-bottom: 1rem;
+}

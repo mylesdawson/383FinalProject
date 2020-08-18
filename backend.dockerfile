@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y python3-pip
 COPY ./backend/cmd ./cmd
 COPY ./backend/json ./json
 COPY ./backend/tweet.py .
+COPY ./backend/trending.py .
 
 RUN pip3 install requests
 
